@@ -1,6 +1,6 @@
 package org.example;
 
-public class GameOfLifeBoard implements BoardGame{
+public class GameOfLifeBoard {
 
     private int[][] board;
 
@@ -8,7 +8,7 @@ public class GameOfLifeBoard implements BoardGame{
         setBoard(board);
     }
 
-    @Override
+
     public void printBoard () {
         for (int[] rows : board) {
             for (int cells : rows) {
@@ -25,10 +25,4 @@ public class GameOfLifeBoard implements BoardGame{
     public void setBoard (int[][] board) {
         this.board = board;
     }
-
-    /*
-    public void setCellState (int value, int row, int col) {
-        this.board[row][col] = value;
-    }
-     */
 }
