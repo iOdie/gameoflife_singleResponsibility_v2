@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.enums.Cell;
 import org.example.exceptions.InvalidGameTypeException;
 
 import static org.example.Rules.*;
@@ -9,7 +10,7 @@ public class Spiel {
 
 
     GameOfLifeBoard board;
-    private int[][] preset;
+    private Cell[][] preset;
 
     public void execute (int gamePreset) throws InvalidGameTypeException {
         setPreset(gamePreset); // add test if input is integer
@@ -21,22 +22,25 @@ public class Spiel {
         if (gamePreset <= 2) {
             switch (gamePreset) {
                 case 1:
-                    preset = new int[][] {{0,0,0,0,0,0,0},
-                                          {0,0,0,0,0,0,0},
-                                          {0,0,0,0,0,0,0},
-                                          {0,0,0,1,0,0,0},
-                                          {0,0,0,1,0,0,0},
-                                          {0,0,0,1,0,0,0},
-                                          {0,0,0,0,0,0,0}};
+                    preset = new Cell[][]{{Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.ALIVE, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.ALIVE, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.ALIVE, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD}
+                    };
                     break;
                 case 2:
-                    preset = new int[][] {{0,0,0,0,0,0,0},
-                                          {0,0,0,0,0,0,0},
-                                          {0,0,0,0,0,0,0},
-                                          {0,0,0,0,0,0,0},
-                                          {0,0,1,1,1,0,0},
-                                          {0,0,0,0,0,0,0},
-                                          {0,0,0,0,0,0,0}};
+                    preset = new Cell[][]{{Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.ALIVE, Cell.ALIVE, Cell.ALIVE, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                            {Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD, Cell.DEAD}
+                    };
+                    break;
             }
         } else {
             throw new InvalidGameTypeException("Not a valid game type. Choose 1-4");
@@ -49,20 +53,20 @@ public class Spiel {
         }
     }
     private void setNextIteration () {
-        int[][] currentIteration = board.getBoard();
-        int[][] nextIterationGameBoard = new int[currentIteration.length][currentIteration[0].length];
+        Cell[][] currentIteration = board.getBoard();
+        Cell[][] nextIterationGameBoard = new Cell[currentIteration.length][currentIteration[0].length];
 
         for (int row = 0; row < currentIteration.length; row++) {
             for(int col = 0; col < currentIteration[row].length; col++) {
-                if (checkIfCellWillBeAlive(countNeighborsOfCell(row, col), currentIteration[row][col])) {
-                    nextIterationGameBoard[row][col] = 1;
+                if (checkIfCellWillBeAlive(board.countNeighborsOfCell(row, col), currentIteration[row][col])) {
+                    nextIterationGameBoard[row][col] = Cell.ALIVE;
                 }
             }
             board.setBoard(nextIterationGameBoard);
         }
     }
 
-    public boolean checkIfCellWillBeAlive (int neighborCount, int cellState) {
+    public boolean checkIfCellWillBeAlive (int neighborCount, Cell cellState) {
 
         return     !checkIfCellIsOverpopulated(neighborCount, cellState)
                 && checkIfCellIsReproducing(neighborCount, cellState)
@@ -70,87 +74,5 @@ public class Spiel {
                 && checkIfCellHasTwoOrThreeNeighbors(neighborCount, cellState);
     }
 
-    private int countNeighborsOfCell (int row, int col) {
-        int sum = 0;
-        return sum + (countNeighborsOfCellAbove(row, col) + countNeighborsOfCellEven(row, col) + countNeighborsOfCellBelow(row, col));
-    }
 
-    public int countNeighborsOfCellAbove(int row, int col) {
-        int sum = 0;
-
-        try {
-            if(preset[row - 1][col - 1] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-
-        try {
-            if(preset[row - 1][col] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-
-        try {
-            if(preset[row - 1][col + 1] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-        return sum;
-    }
-
-    public int countNeighborsOfCellEven(int row, int col) {
-        int sum = 0;
-
-        try {
-            if(preset[row][col - 1] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-
-        try {
-            if(preset[row][col + 1] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-        return sum;
-    }
-
-    public int countNeighborsOfCellBelow(int row, int col) {
-        int sum = 0;
-
-        try {
-            if(preset[row + 1][col - 1] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-
-        try {
-            if(preset[row + 1][col] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-
-        try {
-            if(preset[row + 1][col + 1] == 1) {
-                sum++;
-            }
-        } catch (NullPointerException e) {
-            // do nothing
-        }
-        return sum;
-    }
 }
