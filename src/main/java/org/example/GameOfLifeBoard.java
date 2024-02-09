@@ -40,7 +40,7 @@ public class GameOfLifeBoard {
             if(board[row - 1][col - 1] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
 
@@ -48,7 +48,7 @@ public class GameOfLifeBoard {
             if(board[row - 1][col] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
 
@@ -56,7 +56,7 @@ public class GameOfLifeBoard {
             if(board[row - 1][col + 1] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
         return sum;
@@ -69,7 +69,7 @@ public class GameOfLifeBoard {
             if(board[row][col - 1] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
 
@@ -77,7 +77,7 @@ public class GameOfLifeBoard {
             if(board[row][col + 1] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
         return sum;
@@ -90,7 +90,7 @@ public class GameOfLifeBoard {
             if(board[row + 1][col - 1] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
 
@@ -98,7 +98,7 @@ public class GameOfLifeBoard {
             if(board[row + 1][col] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
 
@@ -106,7 +106,7 @@ public class GameOfLifeBoard {
             if(board[row + 1][col + 1] == Cell.ALIVE) {
                 sum++;
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | ArrayIndexOutOfBoundsException e) {
             // do nothing
         }
         return sum;

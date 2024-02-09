@@ -50,6 +50,9 @@ public class Spiel {
     public void doIterations (int count) {
         for(int i = 0; i < count; i++) {
             setNextIteration();
+            System.out.println("Iteration: " + (i + 1));
+            board.printBoard();
+            System.out.println(" ");
         }
     }
     private void setNextIteration () {
@@ -60,6 +63,8 @@ public class Spiel {
             for(int col = 0; col < currentIteration[row].length; col++) {
                 if (checkIfCellWillBeAlive(board.countNeighborsOfCell(row, col), currentIteration[row][col])) {
                     nextIterationGameBoard[row][col] = Cell.ALIVE;
+                } else {
+                    nextIterationGameBoard[row][col] = Cell.DEAD;
                 }
             }
             board.setBoard(nextIterationGameBoard);
